@@ -6,8 +6,8 @@ const Welcome = () => {
   return (
     <div className="welcome-container">
       <div className="welcome-content">
-        <h1 className="app-name">[APP_NAME]</h1>
-        <p className="app-tagline">[APP_TAGLINE]</p>
+        <h1 className="app-name">hackathon project</h1>
+        <p className="app-tagline">app tagline goes here</p>
         
         <div className="welcome-buttons">
           <Link to="/login" className="btn btn-primary">

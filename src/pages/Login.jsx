@@ -28,7 +28,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-form">
-        <h2>Login to [APP_NAME]</h2>
+        <h2>Login to hackathon project</h2>
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>

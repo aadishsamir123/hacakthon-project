@@ -38,7 +38,7 @@ const SignUp = () => {
   return (
     <div className="auth-container">
       <div className="auth-form">
-        <h2>Sign Up for [APP_NAME]</h2>
+        <h2>Sign Up for hackathon project</h2>
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>

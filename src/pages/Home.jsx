@@ -46,7 +46,7 @@ const Home = () => {
         <div className="home-container">
             <div className="home-content">
                 <header className="home-header">
-                    <h1>Welcome to [APP_NAME]!</h1>
+                    <h1>Welcome to hackathon project!</h1>
                     <button onClick={handleLogout} className="logout-btn">
                         Logout
                     </button>
