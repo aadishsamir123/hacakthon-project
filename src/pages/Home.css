@@ -1,0 +1,152 @@
+.home-container {
+  min-height: 100vh;
+  background: #f0f8f0;
+  padding: 20px;
+}
+
+.home-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border: 2px solid #4caf50;
+  margin-bottom: 20px;
+}
+
+.home-header h1 {
+  color: #2e7d32;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #45a049;
+}
+
+.user-info-card {
+  background: white;
+  padding: 20px;
+  border: 2px solid #4caf50;
+  margin-bottom: 20px;
+}
+
+.user-info-card h2 {
+  color: #2e7d32;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.info-grid {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px;
+  background: #e8f5e8;
+  border-left: 3px solid #4caf50;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #2e7d32;
+  font-size: 0.9rem;
+}
+
+.info-item span {
+  color: #333;
+  font-size: 1rem;
+  word-break: break-all;
+}
+
+.code {
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  background: #d4edda;
+  padding: 5px;
+}
+
+.placeholder-content {
+  background: white;
+  padding: 20px;
+  border: 2px solid #4caf50;
+}
+
+.placeholder-content h3 {
+  color: #2e7d32;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.placeholder-content p {
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.placeholder-content ul {
+  color: #666;
+  line-height: 1.6;
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.placeholder-content li {
+  margin-bottom: 5px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-size: 1.1rem;
+  color: #4caf50;
+}
+
+@media (max-width: 768px) {
+  .home-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .home-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-content {
+    padding: 0 10px;
+  }
+
+  .user-info-card,
+  .placeholder-content,
+  .home-header {
+    padding: 15px;
+  }
+}

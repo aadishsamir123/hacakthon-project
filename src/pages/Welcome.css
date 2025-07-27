@@ -1,0 +1,88 @@
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f0f8f0;
+  padding: 20px;
+}
+
+.welcome-content {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border: 3px solid #4caf50;
+  max-width: 500px;
+  width: 100%;
+}
+
+.app-name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.app-tagline {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+.welcome-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.btn-primary {
+  background: #4caf50;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #45a049;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #4caf50;
+  border: 2px solid #4caf50;
+}
+
+.btn-secondary:hover {
+  background: #4caf50;
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .welcome-content {
+    padding: 30px 20px;
+  }
+
+  .app-name {
+    font-size: 2rem;
+  }
+
+  .welcome-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
