@@ -14,28 +14,9 @@ const ViewReports = () => {
     const [filter, setFilter] = useState('all');
 
     useEffect(() => {
-        if (!currentUser) return;
-
-        const reportsQuery = query(
-            collection(db, 'reports'),
-            where('userId', '==', currentUser.uid),
-            orderBy('createdAt', 'desc')
-        );
-
-        const unsubscribe = onSnapshot(reportsQuery, (snapshot) => {
-            const reportsData = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            setReports(reportsData);
-            setLoading(false);
-        }, (error) => {
-            console.error('Error fetching reports:', error);
-            setLoading(false);
-        });
-
-        return () => unsubscribe();
-    }, [currentUser]);
+        // Since reports are now anonymous, redirect to community reports
+        navigate('/community/reports');
+    }, [navigate]);
 
     const handleBack = () => {
         navigate('/home');

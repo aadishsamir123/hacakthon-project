@@ -12,7 +12,7 @@ const Report = () => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
-        category: 'bug',
+        category: 'school',
         priority: 'medium'
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,14 +40,16 @@ const Report = () => {
         try {
             await addDoc(collection(db, 'reports'), {
                 ...formData,
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                userName: currentUser.displayName || 'Anonymous',
-                status: 'pending',
-                createdAt: serverTimestamp()
+                // Anonymous submission - no user data stored
+                isAnonymous: true,
+                status: 'open',
+                solutionCount: 0,
+                viewCount: 0,
+                createdAt: serverTimestamp(),
+                reportId: Date.now() + Math.random().toString(36).substr(2, 9) // Generate unique ID
             });
 
-            setSubmitMessage({ type: 'success', text: 'Report submitted successfully!' });
+            setSubmitMessage({ type: 'success', text: 'Anonymous report submitted successfully! It will be visible to the community for solutions.' });
             setFormData({
                 title: '',
                 description: '',
@@ -74,62 +76,70 @@ const Report = () => {
                     <button onClick={handleBack} className="back-btn">
                         ← Back
                     </button>
-                    <h1>Submit a Report</h1>
+                    <h1>💭 Share Your Thoughts</h1>
+                    <p className="header-subtitle">This is your safe space to talk about anything on your mind</p>
                 </header>
+
+                <div className="anonymity-notice">
+                    <p>�️ Don't worry - everything you share here is completely anonymous and safe. Other kids might be able to help you with kind advice!</p>
+                </div>
 
                 <div className="report-form-container">
                     <form onSubmit={handleSubmit} className="report-form">
                         <div className="form-group">
-                            <label htmlFor="title">Title *</label>
+                            <label htmlFor="title">What's on your mind? *</label>
                             <input
                                 type="text"
                                 id="title"
                                 name="title"
                                 value={formData.title}
                                 onChange={handleInputChange}
-                                placeholder="Brief description of the issue"
+                                placeholder="Give your thought a title..."
                                 required
                             />
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="category">Category</label>
+                            <label htmlFor="category">What's this about?</label>
                             <select
                                 id="category"
                                 name="category"
                                 value={formData.category}
                                 onChange={handleInputChange}
                             >
-                                <option value="mental violence">Mental Violence</option>
-                                <option value="physical violence">Physical Violence</option>
-                                <option value="complaint">Complaint</option>
-                                <option value="other">Other</option>
+                                <option value="school">School Stuff</option>
+                                <option value="friends">Friends & Friendships</option>
+                                <option value="family">Family</option>
+                                <option value="bullying">Someone is Being Mean</option>
+                                <option value="feelings">My Feelings</option>
+                                <option value="help">I Need Help</option>
+                                <option value="other">Something Else</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="priority">Priority</label>
+                            <label htmlFor="priority">How urgent is this?</label>
                             <select
                                 id="priority"
                                 name="priority"
                                 value={formData.priority}
                                 onChange={handleInputChange}
                             >
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                                <option value="critical">Critical</option>
+                                <option value="low">Just wanted to share</option>
+                                <option value="medium">Could use some advice</option>
+                                <option value="high">Really need help</option>
+                                <option value="critical">This is very important</option>
                             </select>
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="description">Description *</label>
+                            <label htmlFor="description">Tell us more about it *</label>
                             <textarea
                                 id="description"
                                 name="description"
                                 value={formData.description}
                                 onChange={handleInputChange}
-                                placeholder="Detailed description of the issue or request"
+                                placeholder="Share what's on your mind. Don't worry, this is a safe space where you can express your feelings..."
                                 rows={6}
                                 required
                             />
@@ -146,7 +156,7 @@ const Report = () => {
                             className="submit-btn"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? 'Submitting...' : 'Submit Report'}
+                            {isSubmitting ? '✨ Sharing...' : '💭 Share My Thoughts'}
                         </button>
                     </form>
                 </div>

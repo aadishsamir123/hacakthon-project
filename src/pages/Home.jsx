@@ -110,18 +110,18 @@ const Home = () => {
 
                         <div className="fun-widgets">
                             <div className="widget">
-                                <h3>🌟 Fun Fact</h3>
-                                <p>Did you know? Octopuses have three hearts and blue blood!</p>
+                                <h3>🌟 Amazing Fact</h3>
+                                <p>Did you know? A group of flamingos is called a "flamboyance"! How cool is that?</p>
                             </div>
                             <div className="widget">
-                                <h3>📅 Today's Motivation</h3>
-                                <p>"The best time to plant a tree was 20 years ago. The second best time is now."</p>
+                                <h3>� Today's Encouragement</h3>
+                                <p>"You are braver than you believe, stronger than you seem, and smarter than you think!" - Winnie the Pooh</p>
                             </div>
                             <div className="widget">
-                                <h3>🎨 Color of the Day</h3>
+                                <h3>🎨 Feeling Color</h3>
                                 <div className="color-display">
-                                    <div className="color-circle" style={{backgroundColor: '#2196f3'}}></div>
-                                    <span>Ocean Blue</span>
+                                    <div className="color-circle" style={{backgroundColor: '#ff69b4'}}></div>
+                                    <span>Happy Pink</span>
                                 </div>
                             </div>
                         </div>
@@ -130,49 +130,50 @@ const Home = () => {
                     {/* Sidebar */}
                     <div className="sidebar">
                         <div className="sidebar-section">
-                            <h2>📋 Report Center</h2>
+                            <h2>🌟 Safe Space Center</h2>
+                            <p className="safe-space-note">This is your safe place to share thoughts and feelings</p>
                             <div className="sidebar-buttons">
                                 <button 
                                     onClick={() => navigate('/user/report')} 
                                     className="sidebar-btn primary"
                                 >
-                                    <span className="btn-icon">📝</span>
-                                    Submit Report
+                                    <span className="btn-icon">�</span>
+                                    Share My Thoughts
                                 </button>
                                 <button 
                                     onClick={() => navigate('/user/reports')} 
                                     className="sidebar-btn secondary"
                                 >
-                                    <span className="btn-icon">📊</span>
-                                    View Reports
+                                    <span className="btn-icon">🤝</span>
+                                    Help Others
                                 </button>
                             </div>
                         </div>
 
                         <div className="sidebar-section">
-                            <h3>🚀 Quick Tools</h3>
+                            <h3>🎈 Fun Activities</h3>
                             <div className="tool-list">
                                 <div className="tool-item">
-                                    <span className="tool-icon">🔧</span>
-                                    <span>Settings</span>
+                                    <span className="tool-icon">🎨</span>
+                                    <span>Creative Corner</span>
                                 </div>
                                 <div className="tool-item">
-                                    <span className="tool-icon">📈</span>
-                                    <span>Analytics</span>
+                                    <span className="tool-icon">�</span>
+                                    <span>Story Time</span>
                                 </div>
                                 <div className="tool-item">
-                                    <span className="tool-icon">💬</span>
-                                    <span>Feedback</span>
+                                    <span className="tool-icon">🎵</span>
+                                    <span>Music & Games</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="sidebar-section">
-                            <h3>🎮 Fun Zone</h3>
+                            <h3>� Daily Positivity</h3>
                             <div className="fun-activity">
-                                <p>🎲 Random Number: {Math.floor(Math.random() * 100) + 1}</p>
-                                <p>🌡️ Today feels like: {Math.floor(Math.random() * 30) + 15}°C</p>
-                                <p>⭐ Mood: {'⭐'.repeat(Math.floor(Math.random() * 5) + 1)}</p>
+                                <p>� You are awesome!</p>
+                                <p>🦋 Today's magic number: {Math.floor(Math.random() * 100) + 1}</p>
+                                <p>💝 Kindness level: {'❤️'.repeat(Math.floor(Math.random() * 5) + 1)}</p>
                             </div>
                         </div>
                     </div>
