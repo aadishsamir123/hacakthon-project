@@ -24,6 +24,18 @@ const Home = () => {
 
         fetchUserData();
     }, [currentUser, getUserData]);
+    
+    const getRandomJoke = () => {
+        const jokes = [
+            "Do you want to hear a pizza joke? Nahhh, it's too cheesy!",
+            "What did the buffalo say when his son left? Bison!",
+            "What do you call a cold dog? A chilly dog.",
+            "Where do you learn to make banana splits? At sundae school.",
+            "What do you call a lion with no eyes? Lon",
+            "What did one ocean say to the other? Nothing, they just waved."
+        ];
+        return jokes[Math.floor(Math.random() * jokes.length)];
+    }
 
     const handleLogout = async () => {
         try {
@@ -46,48 +58,14 @@ const Home = () => {
         <div className="home-container">
             <div className="home-content">
                 <header className="home-header">
-                    <h1>Welcome to hackathon project!</h1>
+                    <h1>Welcome, {currentUser?.displayName || 'User'}</h1>
                     <button onClick={handleLogout} className="logout-btn">
                         Logout
                     </button>
                 </header>
-
-                <h1>This page is currently a placeholder and <i>will</i> change.</h1>
-                <h3>‏</h3>
-
-                <div className="user-info-card">
-                    <h2>Currently Logged-In User Profile Information (/users/uid/[field])</h2>
-
-                    <div className="info-grid">
-                        <div className="info-item">
-                            <label>users/uid/name:</label>
-                            <span className="code">{userData?.name || currentUser?.displayName || 'N/A'}</span>
-                        </div>
-
-                        <div className="info-item">
-                            <label>users/uid/email:</label>
-                            <span className="code">{currentUser?.email || 'N/A'}</span>
-                        </div>
-
-                        <div className="info-item">
-                            <label>users/uid/uid:</label>
-                            <span className="code">{currentUser?.uid || 'N/A'}</span>
-                        </div>
-
-                        <div className="info-item">
-                            <label>users/uid/createdAt:</label>
-                            <span className="code">
-                                {userData?.createdAt
-                                    ? new Date(userData.createdAt).toLocaleDateString()
-                                    : currentUser?.metadata?.creationTime
-                                        ? new Date(currentUser.metadata.creationTime).toLocaleDateString()
-                                        : 'N/A'
-                                }
-                            </span>
-                        </div>
-                    </div>
-                    <p>‏</p>
-                    <p>Note: This is a read-only view of your profile information. Ask Aadish if you want to modify your name/email. The uid and createdAt fields cannot be modified.</p>
+                <div className="fun-sentences">
+                    <h2>A randomized joke for you:</h2>
+                    <p>{getRandomJoke()}</p>
                 </div>
             </div>
         </div>
