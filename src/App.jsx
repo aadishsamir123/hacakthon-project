@@ -6,6 +6,8 @@ import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import Report from './pages/Report';
+import ViewReports from './pages/ViewReports';
 import './App.css';
 
 function AppRoutes() {
@@ -34,6 +36,22 @@ function AppRoutes() {
         element={
           <PrivateRoute>
             <Home />
+          </PrivateRoute>
+        } 
+      />
+      <Route 
+        path="/user/report" 
+        element={
+          <PrivateRoute>
+            <Report />
+          </PrivateRoute>
+        } 
+      />
+      <Route 
+        path="/user/reports" 
+        element={
+          <PrivateRoute>
+            <ViewReports />
           </PrivateRoute>
         } 
       />

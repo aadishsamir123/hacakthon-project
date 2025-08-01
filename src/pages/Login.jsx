@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import LoadingScreen from '../components/LoadingScreen';
 import './Auth.css';
 
 const Login = () => {
@@ -27,6 +28,7 @@ const Login = () => {
 
   return (
     <div className="auth-container">
+      {loading && <LoadingScreen message="Logging you in..." overlay={true} size="medium" />}
       <div className="auth-form">
         <h2>Login to hackathon project</h2>
         {error && <div className="error-message">{error}</div>}
