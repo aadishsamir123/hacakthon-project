@@ -274,15 +274,6 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="sidebar-section">
-                            <h3>� Daily Positivity</h3>
-                            <div className="fun-activity">
-                                <p>� You are awesome!</p>
-                                <p>🦋 Today's magic number: {Math.floor(Math.random() * 100) + 1}</p>
-                                <p>💝 Kindness level: {'❤️'.repeat(Math.floor(Math.random() * 5) + 1)}</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
