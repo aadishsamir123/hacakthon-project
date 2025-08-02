@@ -17,8 +17,14 @@ const Games = () => {
       description: 'Test your knowledge with this fun quiz game!',
       thumbnail: '🎮',
       url: `https://quiz.games.giishackathon2025.aadish.dev?uid=${currentUser?.uid || ''}`
-    }
-    // Add more games here as needed
+    },
+    {
+      id: 'snake',
+      title: 'Snake Game',
+      description: 'Classic snake game to test your reflexes!',
+      thumbnail: '🐍',
+      url: `https://snake.games.giishackathon2025.aadish.dev?uid=${currentUser?.uid || ''}`
+    },
   ];
   
   const openGame = (game) => {
