@@ -264,10 +264,6 @@ const Home = () => {
                         <div className="sidebar-section">
                             <h3>🎈 Fun Activities</h3>
                             <div className="tool-list">
-                                <div className="tool-item">
-                                    <span className="tool-icon">🎨</span>
-                                    <span>Creative Corner</span>
-                                </div>
                                 <div className="tool-item" onClick={() => navigate('/games')}>
                                     <span className="tool-icon">🎮</span>
                                     <span>Games</span>
@@ -275,10 +271,6 @@ const Home = () => {
                                 <div className="tool-item" onClick={() => navigate('/chat')}>
                                     <span className="tool-icon">🤖</span>
                                     <span>AI Support Chat</span>
-                                </div>
-                                <div className="tool-item">
-                                    <span className="tool-icon">📚</span>
-                                    <span>Story Time</span>
                                 </div>
                             </div>
                         </div>

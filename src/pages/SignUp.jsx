@@ -40,7 +40,7 @@ const SignUp = () => {
     <div className="auth-container">
       {loading && <LoadingScreen message="Creating your account..." overlay={true} size="medium" />}
       <div className="auth-form">
-        <h2>Sign Up for hackathon project</h2>
+        <h2>Sign Up for PeacePod</h2>
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit}>

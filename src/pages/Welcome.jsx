@@ -6,7 +6,7 @@ const Welcome = () => {
   return (
     <div className="welcome-container">
       <div className="welcome-content">
-        <h1 className="app-name">hackathon project</h1>
+        <h1 className="app-name">PeacePod</h1>
         <p className="app-tagline">Where every question finds a home</p>
         
         <div className="welcome-buttons">
