@@ -157,13 +157,13 @@ const Home = () => {
                                     <span className="tool-icon">🎨</span>
                                     <span>Creative Corner</span>
                                 </div>
+                                <div className="tool-item" onClick={() => navigate('/games')}>
+                                    <span className="tool-icon">🎮</span>
+                                    <span>Games</span>
+                                </div>
                                 <div className="tool-item">
                                     <span className="tool-icon">�</span>
                                     <span>Story Time</span>
-                                </div>
-                                <div className="tool-item">
-                                    <span className="tool-icon">🎵</span>
-                                    <span>Music & Games</span>
                                 </div>
                             </div>
                         </div>
