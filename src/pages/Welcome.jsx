@@ -7,7 +7,7 @@ const Welcome = () => {
     <div className="welcome-container">
       <div className="welcome-content">
         <h1 className="app-name">hackathon project</h1>
-        <p className="app-tagline">app tagline goes here</p>
+        <p className="app-tagline">Where every question finds a home</p>
         
         <div className="welcome-buttons">
           <Link to="/login" className="btn btn-primary">
