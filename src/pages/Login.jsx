@@ -4,6 +4,17 @@ import { useAuth } from '../contexts/AuthContext';
 import LoadingScreen from '../components/LoadingScreen';
 import './Auth.css';
 
+/**
+ * Login Component
+ * 
+ * Provides a login form for users to authenticate and access the application.
+ * Features:
+ * - Email and password input fields
+ * - Error handling for failed login attempts
+ * - Loading screen during authentication process
+ * - Navigation to sign-up and welcome pages
+ */
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

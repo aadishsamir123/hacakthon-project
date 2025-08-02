@@ -1,3 +1,13 @@
+/**
+ * AIChatbot Component
+ * 
+ * Provides an interactive chatbot interface powered by AI to assist users.
+ * Features:
+ * - Real-time conversation with AI
+ * - Context-aware responses based on user input
+ * - Integration with backend services for advanced queries
+ */
+
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';

@@ -3,6 +3,16 @@ import { useAuth } from "../contexts/AuthContext";
 import moderationService from "../services/moderationService";
 
 /**
+ * useModeration Hook
+ *
+ * Custom React hook to handle content moderation and user restrictions.
+ * Features:
+ * - Provides functions to moderate user-generated content
+ * - Checks if a user is banned and retrieves ban information
+ * - Integrates with moderation services for content analysis
+ */
+
+/**
  * React hook for handling content moderation and user bans
  */
 export const useModeration = () => {

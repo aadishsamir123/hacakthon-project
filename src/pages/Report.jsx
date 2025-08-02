@@ -1,3 +1,14 @@
+/**
+ * Report Component
+ * 
+ * Allows users to create and submit reports for community review.
+ * Features:
+ * - Input fields for report details (title, description, category, etc.)
+ * - Validation for required fields
+ * - Integration with Firestore for report submission
+ * - Feedback on successful or failed submissions
+ */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

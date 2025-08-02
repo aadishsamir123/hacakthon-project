@@ -1,4 +1,20 @@
-// Utility functions for dashboard
+/**
+ * Utility Service Module
+ *
+ * Provides various utility functions for the dashboard including:
+ * - Random statistics generation for gamification
+ * - Motivational quotes for mental health support
+ * - Fun facts for daily engagement
+ * - Date utilities for calendar features
+ * - Color themes for emotional support
+ */
+
+/**
+ * Generates random statistics for user dashboard gamification
+ * Creates encouraging numbers to motivate user engagement
+ *
+ * @returns {Object} Object containing various stat categories
+ */
 export const generateRandomStats = () => {
   return {
     reportsShared: Math.floor(Math.random() * 50) + 10,
@@ -8,6 +24,12 @@ export const generateRandomStats = () => {
   };
 };
 
+/**
+ * Returns a random motivational quote from a curated collection
+ * Designed to provide daily inspiration and mental health support
+ *
+ * @returns {string} A motivational quote
+ */
 export const getRandomMotivationalQuote = () => {
   const quotes = [
     "You are braver than you believe, stronger than you seem, and smarter than you think!",
@@ -24,6 +46,12 @@ export const getRandomMotivationalQuote = () => {
   return quotes[Math.floor(Math.random() * quotes.length)];
 };
 
+/**
+ * Returns a random fun fact from a collection of interesting trivia
+ * Provides daily educational entertainment to engage users
+ *
+ * @returns {string} An interesting fun fact
+ */
 export const getRandomFact = () => {
   const facts = [
     "A group of flamingos is called a 'flamboyance'! How cool is that?",
@@ -40,13 +68,20 @@ export const getRandomFact = () => {
   return facts[Math.floor(Math.random() * facts.length)];
 };
 
+/**
+ * Calculates and returns dates for the current week (Sunday to Saturday)
+ * Useful for weekly calendar displays and date-based features
+ *
+ * @returns {Array<Date>} Array of 7 Date objects representing the current week
+ */
 export const getCurrentWeekDates = () => {
   const today = new Date();
-  const currentDay = today.getDay();
+  const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - currentDay);
 
   const weekDates = [];
+  // Generate 7 days starting from Sunday
   for (let i = 0; i < 7; i++) {
     const date = new Date(startOfWeek);
     date.setDate(startOfWeek.getDate() + i);
@@ -56,6 +91,12 @@ export const getCurrentWeekDates = () => {
   return weekDates;
 };
 
+/**
+ * Returns a random color with emotional/mood associations
+ * Used for daily color themes that can support emotional well-being
+ *
+ * @returns {Object} Object containing color name and hex value
+ */
 export const getRandomColor = () => {
   const colors = [
     { name: "Happy Pink", color: "#ff69b4" },

@@ -1,4 +1,19 @@
-// School notice board service
+/**
+ * School Notice Board Service
+ *
+ * Manages school announcements and notices with priority-based organization.
+ * Provides functionality for:
+ * - Retrieving all school notices
+ * - Filtering notices by priority level
+ * - Supporting school communication and student engagement
+ */
+
+/**
+ * Returns all school notices with priority classifications
+ * Notices are categorized as high, medium, or low priority
+ *
+ * @returns {Array<Object>} Array of notice objects with id, title, content, date, priority, author
+ */
 export const getSchoolNotices = () => {
   return [
     {
@@ -76,10 +91,24 @@ export const getSchoolNotices = () => {
   ];
 };
 
+/**
+ * Filters school notices by priority level
+ * Useful for displaying important notices first or organizing by urgency
+ *
+ * @param {string} priority - Priority level ('high', 'medium', 'low')
+ * @returns {Array<Object>} Array of notices matching the specified priority
+ */
 export const getNoticesByPriority = (priority) => {
   return getSchoolNotices().filter((notice) => notice.priority === priority);
 };
 
+/**
+ * Retrieves notices from the last specified number of days
+ * Default retrieves notices from the past week
+ *
+ * @param {number} days - Number of days to look back (default: 7)
+ * @returns {Array<Object>} Array of recent notices
+ */
 export const getRecentNotices = (days = 7) => {
   const cutoffDate = new Date();
   cutoffDate.setDate(cutoffDate.getDate() - days);
@@ -90,6 +119,13 @@ export const getRecentNotices = (days = 7) => {
   });
 };
 
+/**
+ * Retrieves notices for upcoming events within specified days
+ * Helps students prepare for future school activities
+ *
+ * @param {number} days - Number of days to look ahead (default: 7)
+ * @returns {Array<Object>} Array of upcoming notices
+ */
 export const getUpcomingNotices = (days = 7) => {
   const today = new Date();
   const futureDate = new Date();

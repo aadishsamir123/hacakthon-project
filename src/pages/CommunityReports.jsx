@@ -1,3 +1,18 @@
+/**
+ * CommunityReports Component
+ * 
+ * This component allows users to view, filter, and interact with community-shared reports.
+ * Users can provide anonymous solutions to help others, and the system includes moderation
+ * to ensure a safe and supportive environment.
+ * 
+ * Features:
+ * - Fetch and display reports from Firestore
+ * - Filter reports by status and priority
+ * - View detailed report information and solutions
+ * - Submit anonymous solutions with moderation
+ * - Increment view and helpful counts for reports and solutions
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,6 +24,7 @@ import { useModeration } from '../hooks/useModeration';
 import './CommunityReports.css';
 
 const CommunityReports = () => {
+    // State for managing reports, filters, and user interactions
     const { currentUser } = useAuth();
     const navigate = useNavigate();
     const { moderateContent, isBanned, getBanInfo } = useModeration();
@@ -22,6 +38,7 @@ const CommunityReports = () => {
     const [loadingSolutions, setLoadingSolutions] = useState(false);
     const [showBanNotification, setShowBanNotification] = useState(false);
 
+    // Effect: Fetch reports from Firestore and listen for real-time updates
     useEffect(() => {
         const reportsQuery = query(
             collection(db, 'reports'),
@@ -66,6 +83,12 @@ const CommunityReports = () => {
         }
     };
 
+    /**
+     * Formats a Firestore timestamp into a readable date and time string.
+     * 
+     * @param {Object} timestamp - Firestore timestamp or Date object
+     * @returns {string} Formatted date and time string
+     */
     const formatDate = (timestamp) => {
         if (!timestamp) return 'N/A';
         
@@ -82,6 +105,14 @@ const CommunityReports = () => {
         });
     };
 
+    /**
+     * Handles viewing a specific report.
+     * - Sets the selected report for detailed view.
+     * - Increments the view count in Firestore.
+     * - Fetches existing solutions for the report.
+     * 
+     * @param {Object} report - The report object to view
+     */
     const handleViewReport = async (report) => {
         setSelectedReport(report);
         setLoadingSolutions(true);

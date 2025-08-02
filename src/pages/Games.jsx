@@ -1,3 +1,13 @@
+/**
+ * Games Component
+ * 
+ * Provides a collection of interactive games for users to play and enjoy.
+ * Features:
+ * - List of available games with descriptions
+ * - Navigation to individual game pages
+ * - Integration with user profiles for tracking scores or progress
+ */
+
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';

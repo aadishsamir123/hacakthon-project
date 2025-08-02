@@ -13,15 +13,23 @@ import Games from './pages/Games';
 import AIChatbot from './pages/AIChatbot';
 import './App.css';
 
+/**
+ * AppRoutes Component
+ * 
+ * Handles all routing logic for the application with authentication-based redirects.
+ * Automatically redirects authenticated users to home and unauthenticated users to welcome page.
+ */
 function AppRoutes() {
   const { currentUser } = useAuth();
 
   return (
     <Routes>
+      {/* Root route - redirect based on authentication status */}
       <Route 
         path="/" 
         element={currentUser ? <Navigate to="/home" /> : <Navigate to="/welcome" />} 
       />
+      {/* Public routes - redirect to home if already authenticated */}
       <Route 
         path="/welcome" 
         element={currentUser ? <Navigate to="/home" /> : <Welcome />} 
@@ -66,6 +74,7 @@ function AppRoutes() {
           </PrivateRoute>
         } 
       />
+      {/* Protected routes - require authentication */}
       <Route 
         path="/games" 
         element={
@@ -86,6 +95,16 @@ function AppRoutes() {
   );
 }
 
+/**
+ * Main App Component
+ * 
+ * Root component that sets up the application structure with:
+ * - Router for client-side navigation
+ * - AuthProvider for global authentication context
+ * - AppRoutes for handling all application routes
+ * 
+ * This component serves as the entry point for the mental health support application.
+ */
 function App() {
   return (
     <Router>

@@ -1,6 +1,16 @@
 import moderationService from "../services/moderationService";
 
 /**
+ * Moderation Tester Utility
+ *
+ * Provides tools to test and validate the moderation service.
+ * Features:
+ * - Simulate moderation scenarios with sample data
+ * - Validate responses from moderation APIs
+ * - Debug and log moderation results for analysis
+ */
+
+/**
  * Utility functions for testing the moderation system
  */
 export class ModerationTester {

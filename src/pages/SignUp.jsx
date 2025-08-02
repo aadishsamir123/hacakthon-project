@@ -4,6 +4,17 @@ import { useAuth } from '../contexts/AuthContext';
 import LoadingScreen from '../components/LoadingScreen';
 import './Auth.css';
 
+/**
+ * SignUp Component
+ * 
+ * Provides a registration form for new users to create an account.
+ * Features:
+ * - Input fields for email, password, and other user details
+ * - Validation for required fields and password strength
+ * - Integration with Firebase Authentication for account creation
+ * - Error handling for failed registration attempts
+ */
+
 const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

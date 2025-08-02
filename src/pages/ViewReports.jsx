@@ -1,3 +1,13 @@
+/**
+ * ViewReports Component
+ * 
+ * Displays a list of reports submitted by the community for review and interaction.
+ * Features:
+ * - Fetch and display reports from Firestore
+ * - Filter and sort reports by various criteria
+ * - View detailed information about each report
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

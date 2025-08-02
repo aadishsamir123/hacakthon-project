@@ -1,4 +1,19 @@
-// Weather service with real Open-Meteo API (free, no API key required)
+/**
+ * Weather Service Module
+ *
+ * Provides weather-related functionality for the application including:
+ * - IP-based geolocation detection
+ * - Weather data fetching from Open-Meteo API (free, no API key required)
+ * - Weather icon mapping for UI display
+ * - Fallback weather data when API is unavailable
+ */
+
+/**
+ * Gets user's location information based on their IP address
+ * Uses ipapi.co service for geolocation detection
+ *
+ * @returns {Promise<Object>} Location object with city, country, latitude, longitude
+ */
 export const getLocationFromIP = async () => {
   try {
     const response = await fetch("https://ipapi.co/json/");
@@ -11,6 +26,7 @@ export const getLocationFromIP = async () => {
     };
   } catch (error) {
     console.error("Error getting location:", error);
+    // Return default coordinates (NYC) if location detection fails
     return {
       city: "Your City",
       country: "Your Country",
@@ -20,6 +36,14 @@ export const getLocationFromIP = async () => {
   }
 };
 
+/**
+ * Fetches current weather data for a given location
+ * Uses Open-Meteo API for real-time weather information
+ * Includes fallback mechanism with simulated weather data
+ *
+ * @param {Object} location - Location object with latitude and longitude
+ * @returns {Promise<Object>} Weather data object with temperature, description, etc.
+ */
 export const getWeatherData = async (location) => {
   try {
     // Using Open-Meteo free API - no API key required
@@ -31,7 +55,7 @@ export const getWeatherData = async (location) => {
       const weatherData = await weatherResponse.json();
       const current = weatherData.current_weather;
 
-      // Map weather codes to descriptions
+      // Convert weather codes from Open-Meteo API to human-readable descriptions
       const getWeatherDescription = (code) => {
         const weatherCodes = {
           0: "clear sky",
@@ -70,7 +94,8 @@ export const getWeatherData = async (location) => {
   } catch (error) {
     console.error("Error fetching weather:", error);
 
-    // Fallback to simulated weather based on location
+    // Fallback weather system: Generate consistent weather based on location
+    // This ensures users still get weather data when the API is unavailable
     const weatherConditions = [
       { condition: "clear sky", temp: 22, humidity: 45, wind: 3 },
       { condition: "partly cloudy", temp: 18, humidity: 60, wind: 5 },
@@ -79,12 +104,12 @@ export const getWeatherData = async (location) => {
       { condition: "sunny", temp: 25, humidity: 40, wind: 4 },
     ];
 
-    // Simple hash-based selection to get consistent weather for same location
+    // Use location name to consistently generate the same weather for the same place
     const locationHash =
       (location.city + location.country).length % weatherConditions.length;
     const baseWeather = weatherConditions[locationHash];
 
-    // Add some randomness but keep it reasonable
+    // Add minor randomness while keeping weather realistic
     const tempVariation = (Math.random() - 0.5) * 10; // ±5 degrees
     const humidityVariation = (Math.random() - 0.5) * 20; // ±10%
     const windVariation = (Math.random() - 0.5) * 4; // ±2 m/s
@@ -103,6 +128,13 @@ export const getWeatherData = async (location) => {
   }
 };
 
+/**
+ * Maps weather descriptions to corresponding emoji icons
+ * Provides visual representation for different weather conditions
+ *
+ * @param {string} description - Weather condition description
+ * @returns {string} Weather emoji icon
+ */
 export const getWeatherIcon = (description) => {
   const iconMap = {
     "clear sky": "☀️",
@@ -131,5 +163,6 @@ export const getWeatherIcon = (description) => {
     windy: "💨",
   };
 
+  // Return corresponding emoji or default partly cloudy icon
   return iconMap[description] || "🌤️";
 };

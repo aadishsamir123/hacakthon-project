@@ -2,6 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Welcome.css';
 
+/**
+ * Welcome Component
+ * 
+ * Serves as the landing page for new users, introducing them to the application.
+ * Features:
+ * - Overview of app functionality and benefits
+ * - Navigation options to sign up or log in
+ * - Responsive design for various screen sizes
+ */
+
 const Welcome = () => {
   return (
     <div className="welcome-container">

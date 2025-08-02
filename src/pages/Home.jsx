@@ -7,21 +7,50 @@ import { getSchoolNotices, getNoticesByPriority } from '../services/noticeServic
 import { generateRandomStats, getRandomMotivationalQuote, getRandomFact, getRandomColor } from '../services/utilityService';
 import './Home.css';
 
+/**
+ * Home Dashboard Component
+ * 
+ * Main landing page displayed after user authentication. This component serves as a 
+ * comprehensive dashboard featuring:
+ * - User authentication status and logout functionality
+ * - Real-time weather widget with location-based data
+ * - Live clock with current time and date
+ * - Daily motivational content (jokes, facts, quotes, colors)
+ * - School notice board with priority-based filtering
+ * - Navigation to app features (games, AI chat, reporting system)
+ * - Modal overlay for viewing all school notices
+ * 
+ * The dashboard is designed as a safe space for students with mental health
+ * support features and engaging daily content.
+ */
 const Home = () => {
+    // Authentication and navigation hooks
     const { currentUser, logout, getUserData } = useAuth();
+    
+    // State management for user data and loading states
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    
+    // Weather-related state
     const [weather, setWeather] = useState(null);
     const [weatherLoading, setWeatherLoading] = useState(true);
+    
+    // Time display state (updates every second)
     const [currentTime, setCurrentTime] = useState(new Date());
+    
+    // Daily content state for motivational features
     const [stats, setStats] = useState(null);
     const [dailyColor, setDailyColor] = useState(null);
-    const [showNoticesModal, setShowNoticesModal] = useState(false);
     const [dailyJoke, setDailyJoke] = useState('');
     const [dailyFact, setDailyFact] = useState('');
     const [dailyQuote, setDailyQuote] = useState('');
+    
+    // UI state for modal visibility
+    const [showNoticesModal, setShowNoticesModal] = useState(false);
+    
     const navigate = useNavigate();
 
+    // Effect: Fetch user data on component mount and when auth state changes
     useEffect(() => {
         const fetchUserData = async () => {
             if (currentUser) {
@@ -38,7 +67,8 @@ const Home = () => {
         fetchUserData();
     }, [currentUser, getUserData]);
 
-    // Generate daily stats and color on component mount
+    // Effect: Initialize daily motivational content on component mount
+    // Generates random stats, color, joke, fact, and quote for the day
     useEffect(() => {
         setStats(generateRandomStats());
         setDailyColor(getRandomColor());
@@ -47,16 +77,19 @@ const Home = () => {
         setDailyQuote(getRandomMotivationalQuote());
     }, []);
 
-    // Weather API integration
+    // Effect: Fetch weather data based on user's IP location
+    // Includes fallback data in case of API failure
     useEffect(() => {
         const fetchWeather = async () => {
             try {
+                // Get user location from IP address
                 const location = await getLocationFromIP();
+                // Fetch weather data for that location
                 const weather = await getWeatherData(location);
                 setWeather(weather);
             } catch (error) {
                 console.error('Error fetching weather:', error);
-                // Set fallback weather data
+                // Provide fallback weather data to ensure UI doesn't break
                 setWeather({
                     city: 'Your City',
                     country: 'Your Country',
@@ -72,15 +105,23 @@ const Home = () => {
         fetchWeather();
     }, []);
 
-    // Live clock
+    // Effect: Set up live clock that updates every second
+    // Creates an interval to refresh current time display
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
 
+        // Cleanup interval on component unmount to prevent memory leaks
         return () => clearInterval(timer);
     }, []);
     
+    /**
+     * Returns a random joke from a predefined collection
+     * Used for daily entertainment and mood lifting for students
+     * 
+     * @returns {string} A random joke string
+     */
     const getRandomJoke = () => {
         const jokes = [
             "Do you want to hear a pizza joke? Nahhh, it's too cheesy!",
@@ -102,6 +143,12 @@ const Home = () => {
         return jokes[Math.floor(Math.random() * jokes.length)];
     }
 
+    /**
+     * Retrieves top 3 school notices (1 from each priority level)
+     * Ensures balanced representation of high, medium, and low priority announcements
+     * 
+     * @returns {Array} Array containing up to 3 notice objects
+     */
     const getTopNotices = () => {
         const highPriority = getNoticesByPriority('high').slice(0, 1);
         const mediumPriority = getNoticesByPriority('medium').slice(0, 1);
@@ -109,14 +156,26 @@ const Home = () => {
         return [...highPriority, ...mediumPriority, ...lowPriority];
     }
 
+    /**
+     * Opens the modal overlay to display all school notices
+     */
     const handleViewAllNotices = () => {
         setShowNoticesModal(true);
     }
 
+    /**
+     * Generates and sets a new random joke when user clicks refresh button
+     */
     const handleNewJoke = () => {
         setDailyJoke(getRandomJoke());
     }
 
+    /**
+     * Formats a Date object into a readable time string (HH:MM:SS)
+     * 
+     * @param {Date} date - The date object to format
+     * @returns {string} Formatted time string
+     */
     const formatTime = (date) => {
         return date.toLocaleTimeString([], { 
             hour: '2-digit', 
@@ -125,6 +184,12 @@ const Home = () => {
         });
     }
 
+    /**
+     * Formats a Date object into a readable date string (Weekday, Month Day, Year)
+     * 
+     * @param {Date} date - The date object to format
+     * @returns {string} Formatted date string
+     */
     const formatDate = (date) => {
         return date.toLocaleDateString([], { 
             weekday: 'long', 
@@ -134,6 +199,10 @@ const Home = () => {
         });
     }
 
+    /**
+     * Handles user logout process
+     * Logs out the current user and redirects to welcome page
+     */
     const handleLogout = async () => {
         try {
             await logout();
@@ -143,6 +212,7 @@ const Home = () => {
         }
     };
 
+    // Show loading screen while fetching user data
     if (loading) {
         return <LoadingScreen message="Loading your dashboard..." />;
     }

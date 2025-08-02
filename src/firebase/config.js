@@ -1,9 +1,19 @@
+/**
+ * Firebase Configuration Module
+ *
+ * Initializes and configures Firebase services for the application:
+ * - Firebase Authentication for user management
+ * - Cloud Firestore for data storage
+ *
+ * Uses environment variables for secure configuration management.
+ * Fallback values are provided for development purposes.
+ */
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// You can use environment variables (recommended) or hard-code the values
+// Firebase configuration object with environment variable support
+// Environment variables should be set in .env file for security
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "your-api-key",
   authDomain:
@@ -16,13 +26,13 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID || "your-app-id",
 };
 
-// Initialize Firebase
+// Initialize Firebase app with configuration
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Auth and get a reference to the service
+// Initialize and export Firebase Authentication service
 export const auth = getAuth(app);
 
-// Initialize Cloud Firestore and get a reference to the service
+// Initialize and export Cloud Firestore database service
 export const db = getFirestore(app);
 
 export default app;

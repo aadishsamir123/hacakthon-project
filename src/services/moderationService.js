@@ -1,3 +1,13 @@
+/**
+ * Moderation Service
+ *
+ * Provides functions to handle content moderation for user-generated content.
+ * Features:
+ * - Text analysis for inappropriate or harmful content
+ * - Integration with third-party moderation APIs
+ * - User ban and warning mechanisms
+ */
+
 import {
   collection,
   doc,
