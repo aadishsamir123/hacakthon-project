@@ -1,7 +1,7 @@
 # PeacePod
 
 ## Demo Link:
-![https://giishackathon2025.aadish.dev/](https://giishackathon2025.aadish.dev/)
+[https://giishackathon2025.aadish.dev/](https://giishackathon2025.aadish.dev/)
 
 ## Related Repos:
 
