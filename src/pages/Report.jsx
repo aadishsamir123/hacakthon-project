@@ -4,11 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import LoadingScreen from '../components/LoadingScreen';
+import BanNotification from '../components/BanNotification';
+import { useModeration } from '../hooks/useModeration';
 import './Report.css';
 
 const Report = () => {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
+    const { moderateContent, isBanned, getBanInfo } = useModeration();
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -17,6 +20,7 @@ const Report = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitMessage, setSubmitMessage] = useState(null);
+    const [showBanNotification, setShowBanNotification] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -34,10 +38,43 @@ const Report = () => {
             return;
         }
 
+        // Check if user is banned before submission
+        if (isBanned()) {
+            setShowBanNotification(true);
+            return;
+        }
+
         setIsSubmitting(true);
         setSubmitMessage(null);
 
         try {
+            // Moderate content before submission
+            const contentToModerate = `${formData.title} ${formData.description}`;
+            const moderationResult = await moderateContent(contentToModerate, 'report');
+
+            if (!moderationResult.allowed) {
+                if (moderationResult.reason === 'content_violation') {
+                    setSubmitMessage({ 
+                        type: 'error', 
+                        text: moderationResult.message 
+                    });
+                    setShowBanNotification(true);
+                } else if (moderationResult.reason === 'user_banned') {
+                    setSubmitMessage({ 
+                        type: 'error', 
+                        text: moderationResult.message 
+                    });
+                    setShowBanNotification(true);
+                } else {
+                    setSubmitMessage({ 
+                        type: 'error', 
+                        text: moderationResult.message || 'Content could not be processed.' 
+                    });
+                }
+                return;
+            }
+
+            // Content passed moderation - submit the report
             await addDoc(collection(db, 'reports'), {
                 ...formData,
                 // Anonymous submission - no user data stored
@@ -53,7 +90,7 @@ const Report = () => {
             setFormData({
                 title: '',
                 description: '',
-                category: 'bug',
+                category: 'school',
                 priority: 'medium'
             });
         } catch (error) {
@@ -71,6 +108,15 @@ const Report = () => {
     return (
         <div className="report-container">
             {isSubmitting && <LoadingScreen message="Submitting your report..." overlay={true} />}
+            
+            {/* Ban Notification Modal */}
+            {showBanNotification && (
+                <BanNotification 
+                    banInfo={getBanInfo()} 
+                    onClose={() => setShowBanNotification(false)} 
+                />
+            )}
+            
             <div className="report-content">
                 <header className="report-header">
                     <button onClick={handleBack} className="back-btn">

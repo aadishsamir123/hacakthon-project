@@ -2,12 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LoadingScreen from '../components/LoadingScreen';
+import { getLocationFromIP, getWeatherData, getWeatherIcon } from '../services/weatherService';
+import { getSchoolNotices, getNoticesByPriority } from '../services/noticeService';
+import { generateRandomStats, getRandomMotivationalQuote, getRandomFact, getRandomColor } from '../services/utilityService';
 import './Home.css';
 
 const Home = () => {
     const { currentUser, logout, getUserData } = useAuth();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [weather, setWeather] = useState(null);
+    const [weatherLoading, setWeatherLoading] = useState(true);
+    const [currentTime, setCurrentTime] = useState(new Date());
+    const [stats, setStats] = useState(null);
+    const [dailyColor, setDailyColor] = useState(null);
+    const [showNoticesModal, setShowNoticesModal] = useState(false);
+    const [dailyJoke, setDailyJoke] = useState('');
+    const [dailyFact, setDailyFact] = useState('');
+    const [dailyQuote, setDailyQuote] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,6 +37,49 @@ const Home = () => {
 
         fetchUserData();
     }, [currentUser, getUserData]);
+
+    // Generate daily stats and color on component mount
+    useEffect(() => {
+        setStats(generateRandomStats());
+        setDailyColor(getRandomColor());
+        setDailyJoke(getRandomJoke());
+        setDailyFact(getRandomFact());
+        setDailyQuote(getRandomMotivationalQuote());
+    }, []);
+
+    // Weather API integration
+    useEffect(() => {
+        const fetchWeather = async () => {
+            try {
+                const location = await getLocationFromIP();
+                const weather = await getWeatherData(location);
+                setWeather(weather);
+            } catch (error) {
+                console.error('Error fetching weather:', error);
+                // Set fallback weather data
+                setWeather({
+                    city: 'Your City',
+                    country: 'Your Country',
+                    temperature: 22,
+                    description: 'partly cloudy',
+                    humidity: 65,
+                    windSpeed: 5
+                });
+            }
+            setWeatherLoading(false);
+        };
+
+        fetchWeather();
+    }, []);
+
+    // Live clock
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, []);
     
     const getRandomJoke = () => {
         const jokes = [
@@ -45,6 +100,38 @@ const Home = () => {
 
         ];
         return jokes[Math.floor(Math.random() * jokes.length)];
+    }
+
+    const getTopNotices = () => {
+        const highPriority = getNoticesByPriority('high').slice(0, 1);
+        const mediumPriority = getNoticesByPriority('medium').slice(0, 1);
+        const lowPriority = getNoticesByPriority('low').slice(0, 1);
+        return [...highPriority, ...mediumPriority, ...lowPriority];
+    }
+
+    const handleViewAllNotices = () => {
+        setShowNoticesModal(true);
+    }
+
+    const handleNewJoke = () => {
+        setDailyJoke(getRandomJoke());
+    }
+
+    const formatTime = (date) => {
+        return date.toLocaleTimeString([], { 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        });
+    }
+
+    const formatDate = (date) => {
+        return date.toLocaleDateString([], { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
     }
 
     const handleLogout = async () => {
@@ -73,55 +160,79 @@ const Home = () => {
                 <div className="dashboard-layout">
                     {/* Main Dashboard Content */}
                     <div className="main-dashboard">
+                        {/* Daily Joke - moved to top */}
                         <div className="fun-sentences">
                             <h2>🎭 Daily Joke</h2>
-                            <p>{getRandomJoke()}</p>
+                            <p>{dailyJoke}</p>
                             <button 
-                                onClick={() => window.location.reload()} 
+                                onClick={handleNewJoke} 
                                 className="refresh-joke-btn"
                             >
                                 🎲 New Joke
                             </button>
                         </div>
 
-                        <div className="dashboard-stats">
-                            <div className="stat-card">
-                                <div className="stat-icon">📊</div>
-                                <div className="stat-content">
-                                    <h3>Dashboard</h3>
-                                    <p>Welcome to your personal space</p>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">⚡</div>
-                                <div className="stat-content">
-                                    <h3>Quick Actions</h3>
-                                    <p>Access reports and tools</p>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon">🎯</div>
-                                <div className="stat-content">
-                                    <h3>Goals</h3>
-                                    <p>Track your progress</p>
-                                </div>
+                        {/* Live Clock and Date */}
+                        <div className="clock-widget">
+                            <div className="time-display">
+                                <h2>🕐 {formatTime(currentTime)}</h2>
+                                <p>{formatDate(currentTime)}</p>
                             </div>
                         </div>
 
+                        {/* Weather Widget */}
+                        <div className="weather-widget">
+                            <h3>🌤️ Weather</h3>
+                            {weatherLoading ? (
+                                <p>Loading weather...</p>
+                            ) : weather ? (
+                                <div className="weather-info">
+                                    <div className="weather-main">
+                                        <span className="weather-icon">{getWeatherIcon(weather.description)}</span>
+                                        <span className="temperature">{weather.temperature}°C</span>
+                                    </div>
+                                    <p className="weather-location">{weather.city}, {weather.country}</p>
+                                    <p className="weather-description">{weather.description}</p>
+                                    <div className="weather-details">
+                                        <span>💧 {weather.humidity}%</span>
+                                        <span>💨 {weather.windSpeed} m/s</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <p>Weather unavailable</p>
+                            )}
+                        </div>
+
+                        {/* School Notice Board */}
+                        <div className="notice-board">
+                            <h3>📢 School Notice Board</h3>
+                            <div className="notices-container">
+                                {getTopNotices().map((notice) => (
+                                    <div key={notice.id} className={`notice-item priority-${notice.priority}`}>
+                                        <h4>{notice.title}</h4>
+                                        <p>{notice.content}</p>
+                                        <small>{new Date(notice.date).toLocaleDateString()}</small>
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="view-all-notices" onClick={handleViewAllNotices}>View All Notices</button>
+                        </div>
+
+                        {/* Fun Widgets */}
                         <div className="fun-widgets">
                             <div className="widget">
                                 <h3>🌟 Amazing Fact</h3>
-                                <p>Did you know? A group of flamingos is called a "flamboyance"! How cool is that?</p>
+                                <p>{dailyFact}</p>
                             </div>
                             <div className="widget">
-                                <h3>� Today's Encouragement</h3>
-                                <p>"You are braver than you believe, stronger than you seem, and smarter than you think!" - Winnie the Pooh</p>
+                                <h3>💪 Today's Encouragement</h3>
+                                <p>"{dailyQuote}"</p>
                             </div>
                             <div className="widget">
                                 <h3>🎨 Feeling Color</h3>
                                 <div className="color-display">
-                                    <div className="color-circle" style={{backgroundColor: '#ff69b4'}}></div>
-                                    <span>Happy Pink</span>
+                                    <div className="color-circle" style={{backgroundColor: dailyColor?.color || '#ff69b4'}}></div>
+                                    <span>{dailyColor?.name || 'Happy Pink'}</span>
                                 </div>
                             </div>
                         </div>
@@ -182,6 +293,35 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Notices Modal */}
+                {showNoticesModal && (
+                    <div className="modal-overlay" onClick={() => setShowNoticesModal(false)}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-header">
+                                <h2>📢 All School Notices</h2>
+                                <button 
+                                    className="modal-close" 
+                                    onClick={() => setShowNoticesModal(false)}
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                {getSchoolNotices().map((notice) => (
+                                    <div key={notice.id} className={`notice-item-modal priority-${notice.priority}`}>
+                                        <h4>{notice.title}</h4>
+                                        <p>{notice.content}</p>
+                                        <div className="notice-meta">
+                                            <small>📅 {new Date(notice.date).toLocaleDateString()}</small>
+                                            {notice.author && <small>👤 {notice.author}</small>}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

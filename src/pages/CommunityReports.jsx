@@ -4,11 +4,14 @@ import { useAuth } from '../contexts/AuthContext';
 import { collection, query, orderBy, onSnapshot, doc, updateDoc, increment, addDoc, serverTimestamp, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import LoadingScreen from '../components/LoadingScreen';
+import BanNotification from '../components/BanNotification';
+import { useModeration } from '../hooks/useModeration';
 import './CommunityReports.css';
 
 const CommunityReports = () => {
     const { currentUser } = useAuth();
     const navigate = useNavigate();
+    const { moderateContent, isBanned, getBanInfo } = useModeration();
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
@@ -17,6 +20,7 @@ const CommunityReports = () => {
     const [solutionText, setSolutionText] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loadingSolutions, setLoadingSolutions] = useState(false);
+    const [showBanNotification, setShowBanNotification] = useState(false);
 
     useEffect(() => {
         const reportsQuery = query(
@@ -122,10 +126,32 @@ const CommunityReports = () => {
             return;
         }
 
+        // Check if user is banned before submission
+        if (isBanned()) {
+            setShowBanNotification(true);
+            return;
+        }
+
         setIsSubmitting(true);
 
         try {
-            // Add solution to solutions subcollection
+            // Moderate content before submission
+            const moderationResult = await moderateContent(solutionText, 'solution');
+
+            if (!moderationResult.allowed) {
+                if (moderationResult.reason === 'content_violation') {
+                    alert(moderationResult.message);
+                    setShowBanNotification(true);
+                } else if (moderationResult.reason === 'user_banned') {
+                    alert(moderationResult.message);
+                    setShowBanNotification(true);
+                } else {
+                    alert(moderationResult.message || 'Content could not be processed.');
+                }
+                return;
+            }
+
+            // Content passed moderation - submit the solution
             await addDoc(collection(db, 'reports', selectedReport.id, 'solutions'), {
                 solution: solutionText,
                 isAnonymous: true,
@@ -196,6 +222,14 @@ const CommunityReports = () => {
 
     return (
         <div className="community-reports-container">
+            {/* Ban Notification Modal */}
+            {showBanNotification && (
+                <BanNotification 
+                    banInfo={getBanInfo()} 
+                    onClose={() => setShowBanNotification(false)} 
+                />
+            )}
+            
             <div className="community-reports-content">
                 <header className="community-reports-header">
                     <button onClick={handleBack} className="back-btn">
