@@ -10,6 +10,7 @@ import Report from './pages/Report';
 import ViewReports from './pages/ViewReports';
 import CommunityReports from './pages/CommunityReports';
 import Games from './pages/Games';
+import AIChatbot from './pages/AIChatbot';
 import './App.css';
 
 function AppRoutes() {
@@ -70,6 +71,14 @@ function AppRoutes() {
         element={
           <PrivateRoute>
             <Games />
+          </PrivateRoute>
+        } 
+      />
+      <Route 
+        path="/chat" 
+        element={
+          <PrivateRoute>
+            <AIChatbot />
           </PrivateRoute>
         } 
       />

@@ -161,8 +161,12 @@ const Home = () => {
                                     <span className="tool-icon">🎮</span>
                                     <span>Games</span>
                                 </div>
+                                <div className="tool-item" onClick={() => navigate('/chat')}>
+                                    <span className="tool-icon">🤖</span>
+                                    <span>AI Support Chat</span>
+                                </div>
                                 <div className="tool-item">
-                                    <span className="tool-icon">�</span>
+                                    <span className="tool-icon">📚</span>
                                     <span>Story Time</span>
                                 </div>
                             </div>
